@@ -12,7 +12,28 @@
     <style>
         body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
     </style>
-</head>
+</head><script src="https://js.stripe.com/v3/"></script>
+<script>
+// Initialize Stripe
+const stripe = Stripe('pk_live_YOUR_PUBLISHABLE_KEY'); // Replace with your publishable key
+
+function handlePremiumUpgrade() {
+    // Redirect to Stripe Checkout
+    stripe.redirectToCheckout({
+        lineItems: [{
+            price: 'price_YOUR_PRICE_ID', // Replace with your price ID
+            quantity: 1,
+        }],
+        mode: 'payment', // or 'subscription' for recurring
+        successUrl: 'https://holmesr9.github.io/federal-pay-calculator2/?success=true',
+        cancelUrl: 'https://holmesr9.github.io/federal-pay-calculator2/?canceled=true',
+    }).then(function (result) {
+        if (result.error) {
+            alert('Payment failed: ' + result.error.message);
+        }
+    });
+}
+</script>
 <body>
     <div id="root"></div>
 
